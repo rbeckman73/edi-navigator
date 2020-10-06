@@ -1,0 +1,108 @@
+﻿@model IEnumerable<EDI_Navigator.Models.TradingPartner>
+
+@{
+    var title = string.Format("Receipts for {0}", DateTime.Now.ToShortDateString());
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body {
+        background-color: powderblue;
+    }
+
+    h4 {
+        color: blue;
+    }
+
+        p.a {
+            text-indent: 2em;
+        }
+
+    p.b {
+        color: red;
+    }
+
+    div.a {
+        text-indent: 2em;
+    }
+
+</style>
+<body>
+    <hr />
+    @using (Html.BeginForm("Upload", "Orders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <h4>Select file(s) to upload :</h4>
+        @Html.TextBox("file", "", new { type = "file", multiple = "multiple" })
+        <br />
+        <br />
+        <input type="submit" value="Upload files" />
+        <br />
+    }
+    <hr />
+    <h4>@title</h4>
+    <br />
+    @if (Model != null)
+    {
+        foreach (var tradingPartner in Model)
+        {
+            <P class="b">
+                <b>Trading Partner Id: @Html.DisplayFor(model => tradingPartner.TradingPartnerId)</b>
+            </P>
+
+            foreach (var order in tradingPartner.ViewOrders)
+            {
+                <br />
+                <div class="a"><b>Order</b></div>
+                <div class="a">
+                    Reference Id: @Html.DisplayFor(tpOrder => order.ReferenceID)
+                </div>
+                <div class="a">
+                    Purchase Order Number: @Html.DisplayFor(tpOrder => order.PurchaseOrderNumber)
+                </div>
+                <div class="a">
+                    Purchase Order Date: @Html.DisplayFor(tpOrder => order.PurchaseOrderDate)
+                </div>
+                <div class="a">
+                    Reference Id: @Html.DisplayFor(tpOrder => order.ReferenceID)
+                </div>
+                <br />
+                <P class="a">Line Items</P>
+                foreach (var lineItem in order.LineItems)
+                {
+                    <div class="a">
+                        Line Sequence Number: @Html.DisplayFor(orderLI => lineItem.SequenceNumber)
+                    </div>
+                    <div class="a">
+                        Buyer Part Number: @Html.DisplayFor(orderLI => lineItem.BuyerPartNumber)
+                    </div>
+                    <div class="a">
+                        Vendor Part Number: @Html.DisplayFor(orderLI => lineItem.VendorPartNumber)
+                    </div>
+                    <div class="a">
+                        Consumer Package Code: @Html.DisplayFor(orderLI => lineItem.ConsumerPackageCode)
+                    </div>
+                    <div class="a">
+                        Ship Date: @Html.DisplayFor(orderLI => lineItem.ShipDate)
+                    </div>
+                    <div class="a">
+                        Ordered Qty UOM: @Html.DisplayFor(orderLI => lineItem.OrderQtyUOM)
+                    </div>
+                    <div class="a">
+                        Ordered Qty: @Html.DisplayFor(orderLI => lineItem.OrderQty)
+                    </div>
+                    <div class="a">
+                        Purchase Price: @Html.DisplayFor(orderLI => lineItem.PurchasePrice)
+                    </div>
+                    <br />
+                }
+            }
+            <p>
+                <b>Total Line Items: @Html.DisplayFor(model => tradingPartner.TotalLineItems)</b>
+            </p>
+            <p>
+                <b>Total Amount: @Html.DisplayFor(model => tradingPartner.TotalAmount)</b>
+            </p>
+            <hr />
+        }
+    }
+</body>

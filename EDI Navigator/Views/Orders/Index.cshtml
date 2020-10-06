@@ -1,0 +1,31 @@
+﻿@model IEnumerable<EDI_Navigator.Models.TradingPartner>
+
+@{
+    var title = string.Format("Receipts for {0}", DateTime.Now.ToShortDateString());
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body {
+        background-color: powderblue;
+    }
+
+    h4 {
+        color: blue;
+    }
+</style>
+<body>
+    <hr />
+    @using (Html.BeginForm("Upload", "Orders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <h4>Select file(s) to upload :</h4>
+        @Html.TextBox("file", "", new { type = "file", multiple = "multiple" })
+        <br />
+        <br />
+        <input type="submit" value="Upload files" />
+        <br />
+    }
+    <hr />
+    <h4>@title</h4>
+    <br />
+</body>

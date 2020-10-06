@@ -1,0 +1,6 @@
+Operation notes:
+
+1. Click Choose Files to select one or more xml file(s) to injest.
+2. Click Upload Files to process the selected files into the trading parter receipts.
+
+Note: Any xml files that are not schema compliant will be ignored. Any non-xml files are not handled in this prototype.
